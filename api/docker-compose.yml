@@ -7,7 +7,6 @@ services:
       - NODE_ENV=development
     volumes:
       - "./:/api"
-      - "/api/node_modules"
     command: yarn run dev
     ports:
       - 3000:3000
