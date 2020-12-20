@@ -24,3 +24,14 @@ services:
     ports:
       - "5432:5432"
     command: ["postgres", "-c", "log_statement=all"]
+  migration:
+    build:
+      context: ./
+      dockerfile: Dockerfile.migration
+    environment:
+      - DB_PATH=postgresql://postgres:password@db/bastion
+    volumes:
+      - "./:/api"
+      - "/api/node_modules"
+    depends_on: 
+      - db
