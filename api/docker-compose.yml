@@ -5,8 +5,22 @@ services:
     build: ./
     environment:
       - NODE_ENV=development
+      - DB_PATH=postgresql://postgres:password@db/bastion
     volumes:
       - "./:/api"
     command: yarn run dev
     ports:
       - 3000:3000
+    depends_on: 
+      - db
+  db:
+    image: postgres:9.6-alpine
+    environment: 
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=bastion
+    volumes:
+      - "./data/pgdata:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    command: ["postgres", "-c", "log_statement=all"]
