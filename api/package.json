@@ -1,0 +1,17 @@
+{
+  "name": "bastion",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:lededje/bastion.git",
+  "license": "",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
