@@ -1,7 +1,7 @@
 import request from 'supertest'
 import knex from '../services/knex'
 
-import app, { HealthResponse } from './';
+import app, { HealthResponse } from './Healthcheck';
 
 describe('GET /', () => {
   it('responds with json', (done) => {

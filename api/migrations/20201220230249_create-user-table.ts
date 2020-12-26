@@ -19,7 +19,7 @@ export const up = async (knex: Knex) => {
     Users.increments('id');
     Users.string('email');
     Users.string('name');
-    Users.timestamps(true, true)
+    Users.timestamps(true, true);
     
     Users.unique(['email'], 'users_email_unique');
   });
