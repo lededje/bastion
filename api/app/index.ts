@@ -1,26 +1,14 @@
-import express, { Request } from 'express'
-import type { Response } from 'express-serve-static-core';
-import knex from '../services/knex';
+import express from 'express'
 
-const app = express()
+import Healthcheck from './routes/Healthcheck';
+import BeginRegistration from './routes/BeginRegistration';
 
-export type HealthResponse = {
-  healthy: boolean;
-  dbConnection: boolean;
-}
+const app = express();
 
-app.get('/', async (req: Request, res: Response<HealthResponse, 200> ) => {
-  let dbConnection = false;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-  try {
-    await knex.raw('select 1 + 1 as result');
-    dbConnection = true;
-  } finally {
-    res.json({
-      healthy: true,
-      dbConnection,
-    });
-  }
-})
+app.get('/', Healthcheck);
+app.use('/onboarding/begin-registration', BeginRegistration);
 
 export default app;

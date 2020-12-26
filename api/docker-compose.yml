@@ -6,6 +6,9 @@ services:
     environment:
       - NODE_ENV=development
       - DB_PATH=postgresql://postgres:password@db/bastion
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
     volumes:
       - "./:/api"
     command: yarn run dev
