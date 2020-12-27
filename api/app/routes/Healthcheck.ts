@@ -8,7 +8,7 @@ export type HealthResponse = {
   dbConnection: boolean;
 }
 
-const Healthcheck: RequestHandler<{}, HealthResponse> = async (req, res ) => {
+const Healthcheck: RequestHandler<{}, HealthResponse> = async (req, res) => {
   let dbConnection = false;
 
   try {
