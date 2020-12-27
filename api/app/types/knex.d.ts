@@ -1,5 +1,5 @@
 import Knex from "knex";
-import { AccessToken, User } from "./Tables";
+import { AccessToken, User, PhoneNumber } from "./Tables";
 declare module 'knex/types/tables' {  
   interface Tables {
     users: User;
@@ -14,6 +14,13 @@ declare module 'knex/types/tables' {
       AccessToken,
       Pick<AccessToken, 'id'> & Partial<Pick<AccessToken, 'created_at' | 'updated_at'>>,
       Partial<Omit<AccessToken, 'id'>>
+    >
+
+    phone_numbers: PhoneNumber;
+    phone_numbers_composite: Knex.CompositeTableType<
+      PhoneNumber,
+      Pick<PhoneNumber, 'id'> & Partial<Pick<PhoneNumber, 'created_at' | 'updated_at'>>,
+      Partial<Omit<PhoneNumber, 'id'>>
     >
   }
 }

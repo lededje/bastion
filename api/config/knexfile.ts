@@ -1,4 +1,3 @@
-import Knex from 'knex';
 const config = {
   client: 'pg',
   connection: process.env.DB_PATH,
