@@ -1,13 +1,14 @@
-import type { Request } from 'express'
-import type { Response } from 'express-serve-static-core';
+import express, { RequestHandler } from 'express'
 import knex from '../services/knex';
+
+const app = express();
 
 export type HealthResponse = {
   healthy: boolean;
   dbConnection: boolean;
 }
 
-const Healthcheck = async (req: Request, res: Response<HealthResponse, 200> ) => {
+const Healthcheck: RequestHandler<{}, HealthResponse> = async (req, res ) => {
   let dbConnection = false;
 
   try {
@@ -21,4 +22,6 @@ const Healthcheck = async (req: Request, res: Response<HealthResponse, 200> ) =>
   }
 }
 
-export default Healthcheck;
+app.get('/', Healthcheck);
+
+export default app;

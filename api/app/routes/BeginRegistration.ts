@@ -1,17 +1,19 @@
+import ValidationErrorResponse from '../types/RequestBodyValidationErrorResponse';
 import express, { RequestHandler } from 'express'
-import { body, ValidationError, validationResult } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 
 import knex from '../services/knex';
 import mail from '../services/mail';
 
 import randomWords, { words } from '../utils/randomWords';
+import { AccessToken, User } from '../types/Tables';
 
 const app = express();
 
-const welcomeEmail = (name: string, securityPhrase: string[]) => [
+const welcomeEmail = (name: string, securityPhrase: string[], requestToken: string) => [
   `Hello ${name},`,
   '',
-  'Complete sign up by clicking this link:',
+  `Complete sign up by clicking this link: http://localhost:3000/api/authenticate/${requestToken}`,
   '',
   `Security phrase: ${securityPhrase.join(', ')}`,
   '',
@@ -29,12 +31,6 @@ export type BeginRegistrationRequestBody = {
 
 export type BeginRegistrationResponse = {
   securityPhrase: (typeof words[number])[];
-}
-
-export type ValidationErrorResponse = {
-  error: 'REQUSET_BODY_VALIDATION_ERROR',
-  message: 'The request contained invalid properties',
-  context: ValidationError[],
 }
 
 export type EmailExistsErrorResponse = {
@@ -66,9 +62,19 @@ const BeginRegistration:RequestHandler<{}, BeginRegistrationResponses, BeginRegi
 
   const securityPhrase = randomWords(4);
 
+  let user: User, accessToken: AccessToken;
+
   try {
-    await knex('users')
-      .insert({ name, email });
+    const [newUser] = await knex('users')
+      .insert({ name, email }, '*')
+
+    user = newUser;
+
+    const [newAccessToken] = await knex('access_tokens')
+      .insert({ user_id: user.id }, '*')
+
+    accessToken = newAccessToken;
+
   } catch (e) {
     if(e.constraint === 'users_email_unique') {
       res.status(400).json({
@@ -84,7 +90,7 @@ const BeginRegistration:RequestHandler<{}, BeginRegistrationResponses, BeginRegi
     from: 'Team Bastion <noreply@likeminded.io>',
     to: `${name} <${email}>`,
     subject: "Complete Bastion Registration",
-    text: welcomeEmail(name, securityPhrase)
+    text: welcomeEmail(name, securityPhrase, accessToken.request_token)
   });
 
   res.json({
