@@ -3,7 +3,7 @@ import knex from '../services/knex'
 
 import app, { HealthResponse } from './Healthcheck';
 
-describe('GET /', () => {
+describe('Healthcheck GET /', () => {
   it('responds with json', (done) => {
     request(app)
       .get('/')

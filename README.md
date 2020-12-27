@@ -7,6 +7,8 @@ Create a .env in api/
 * AWS_ACCESS_KEY_ID
 * AWS_SECRET_ACCESS_KEY
 * AWS_REGION
+* TWILIO_ACCOUNT_SID
+* TWILIO_AUTH_TOKEN
 
 ## Login/Sign up flow
 

@@ -19,7 +19,8 @@
     "express-validator": "^6.8.1",
     "knex": "^0.21.14",
     "nodemailer": "^6.4.17",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "twilio": "^3.54.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
