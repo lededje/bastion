@@ -6,7 +6,7 @@
   "license": "",
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "dev": "nodemon --watch './**/*' --ignore './**/*.spec.ts' --exec ts-node ./index.ts --trace-warnings",
+    "dev": "tsc --project './tsconfig.json' --watch & NODE_ENV=development nodemon dist",
     "test": "jest"
   },
   "dependencies": {
@@ -33,7 +33,6 @@
     "nodemon": "^2.0.6",
     "superagent": "^6.1.0",
     "supertest": "^6.0.1",
-    "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   }
 }
