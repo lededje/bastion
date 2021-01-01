@@ -3,6 +3,7 @@ import express, { RequestHandler } from 'express'
 import { param, validationResult } from 'express-validator';
 import { MobileInstance } from 'twilio/lib/rest/api/v2010/account/availablePhoneNumber/mobile';
 import twilio from '../services/twilio';
+import authenticated from '../middleware/authenticated';
 
 const app = express();
 
@@ -46,8 +47,13 @@ const AvailableNumbers: RequestHandler<AvailableNumbersParams, AvailableNumbersR
   res.json(phoneNumbers);
 }
 
-app.get('/:country', [
-  param('country').isISO31661Alpha2(),
-], AvailableNumbers);
+app.use(authenticated)
+
+app.get('/:country',
+  [
+    param('country').isISO31661Alpha2(),
+  ],
+  AvailableNumbers
+);
 
 export default app;
