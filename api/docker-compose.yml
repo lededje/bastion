@@ -5,7 +5,7 @@ services:
     build: ./
     environment:
       - NODE_ENV=development
-      - DB_PATH=postgresql://postgres:password@db/bastion
+      - DB_PATH=${DB_PATH}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
