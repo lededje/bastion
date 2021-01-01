@@ -9,7 +9,7 @@ export interface User {
 
 export interface AccessToken {
   id: number;
-  user_id: number;
+  user_id: User['id'];
   request_token: string;
   access_token: string;
   created_at: string;
@@ -20,7 +20,7 @@ export interface AccessToken {
 
 export interface PhoneNumber {
   id: number;
-  user_id: number;
+  user_id: User['id'];
   phone_number: string;
   created_at: string;
   updated_at: string;

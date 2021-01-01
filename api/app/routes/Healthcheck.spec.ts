@@ -21,5 +21,5 @@ describe('Healthcheck GET /', () => {
 });
 
 afterAll(() => {
-  knex.destroy()
+  return knex.destroy()
 })

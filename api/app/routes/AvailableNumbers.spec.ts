@@ -1,4 +1,4 @@
-jest.mock('../middleware/authenticated');
+jest.mock('../middleware/Authenticated');
 
 import request from 'supertest'
 import knex from '../services/knex'

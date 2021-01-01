@@ -11,7 +11,7 @@ export const up = async (knex: Knex) => {
       .defaultTo(knex.raw('uuid_generate_v4()'));
     AccessTokens.uuid('access_token');
     AccessTokens.timestamps(true, true);
-    
+
     AccessTokens.foreign('user_id').references('users.id');
   });
 

@@ -12,17 +12,23 @@ type AccessTokenExpiredErrorResponse = {
   message: 'Provided access token has expired, please request another'
 }
 
+type AccessTokenNotFoundErrorResponse = {
+  error: 'ACCESS_TOKEN_NOT_FOUND';
+  message: 'Provided access token has not been found, please request another'
+}
+
 type AccessTokenRevokedErrorResponse = {
   error: 'ACCESS_TOKEN_REVOKED';
   message: 'Provided access token has been revoked, please request another'
 }
 
-type AuthenticatedResponses =
+export type AuthenticatedResponses =
   | AuthotizationHeaderMissingErrorResponse
   | AccessTokenExpiredErrorResponse
+  | AccessTokenNotFoundErrorResponse
   | AccessTokenRevokedErrorResponse;
 
-const authenticated: RequestHandler<{}, AuthenticatedResponses> = async (req, res, next) => {
+const Authenticated: RequestHandler<{}, AuthenticatedResponses> = async (req, res, next) => {
   const accessToken = req.headers.authorization;
 
   if(accessToken === undefined) {
@@ -34,8 +40,16 @@ const authenticated: RequestHandler<{}, AuthenticatedResponses> = async (req, re
   }
 
   const token = await knex('access_tokens')
-    .where({ access_token: accessToken})
+    .where({ access_token: accessToken })
     .first();
+
+  if(token === undefined) {
+    res.status(404).json({
+      error: 'ACCESS_TOKEN_NOT_FOUND',
+      message: 'Provided access token has not been found, please request another',
+    });
+    return;
+  }
   
   if(token.expires_at === null || isBefore(new Date(token.expires_at), Date.now())) {
     res.status(400).json({
@@ -56,4 +70,4 @@ const authenticated: RequestHandler<{}, AuthenticatedResponses> = async (req, re
   next();
 }
 
-export default authenticated;
+export default Authenticated;

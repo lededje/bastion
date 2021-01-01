@@ -8,6 +8,7 @@ import CreateSession from './routes/CreateSession';
 import ValidateSession from './routes/ValidateSession';
 import AvailableNumbers from './routes/AvailableNumbers';
 import Onboarding from './routes/Onboarding';
+import WhoAmI from './routes/WhoAmI';
 
 const app = express();
 
@@ -20,5 +21,6 @@ app.use('/onboarding/begin-registration', BeginRegistration);
 app.use('/authentication/create-session', CreateSession);
 app.use('/authentication/validate-session', ValidateSession);
 app.use('/available-numbers', AvailableNumbers);
+app.use('/whoami', WhoAmI);
 
 export default app;
