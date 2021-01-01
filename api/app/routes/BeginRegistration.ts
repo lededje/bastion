@@ -38,7 +38,7 @@ export type EmailExistsErrorResponse = {
   message: 'The email provided is already in use',
 }
 
-type BeginRegistrationResponses =
+export type BeginRegistrationResponses =
   | BeginRegistrationResponse
   | ValidationErrorResponse
   | EmailExistsErrorResponse;
@@ -49,7 +49,7 @@ const BeginRegistration:RequestHandler<{}, BeginRegistrationResponses, BeginRegi
 ) => {
   const errors = validationResult(req);
 
-  if (!errors.isEmpty()) {
+  if (errors.isEmpty() === false) {
     res.status(400).json({
       error: 'REQUSET_BODY_VALIDATION_ERROR',
       message: 'The request contained invalid properties',

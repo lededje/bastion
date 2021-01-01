@@ -1,0 +1,1 @@
+export default (num: number) => new Array(num).fill('MOCKED_RANDOM_WORD')

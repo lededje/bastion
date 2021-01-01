@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`randomWords returns three random words 1`] = `
+Array [
+  "buzz",
+  "buzz",
+  "buzz",
+]
+`;
