@@ -10,4 +10,4 @@ RUN yarn
 
 ADD . /app/
 
-CMD ./node_modules/.bin/knex --knexfile config/knexfile.ts migrate:up
+CMD ./node_modules/.bin/knex --knexfile config/knexfile.ts migrate:latest
