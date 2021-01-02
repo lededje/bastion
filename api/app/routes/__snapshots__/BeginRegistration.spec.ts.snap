@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BeginRegistration POST / sends an email to the new user 1`] = `
+Object {
+  "from": Object {
+    "address": "noreply@likeminded.io",
+    "name": "Team Bastion",
+  },
+  "headers": Object {},
+  "messageId": "Message ID removed for test consistency",
+  "subject": "Complete Bastion Registration",
+  "text": "Hello New User,
+
+Complete sign up by clicking this link: http://localhost:3000/api/authenticate/removed-uuid-v4-for-tests
+
+Security phrase: MOCKED_RANDOM_WORD, MOCKED_RANDOM_WORD, MOCKED_RANDOM_WORD, MOCKED_RANDOM_WORD
+
+If you did not sign up to Bastion, please click this link:
+
+Best,
+
+Bastion Team",
+  "to": Array [
+    Object {
+      "address": "newuser@example.com",
+      "name": "New User",
+    },
+  ],
+}
+`;

@@ -1,13 +1,26 @@
 jest.mock('../middleware/Authenticated');
 
+jest.mock('../services/mail');
+jest.mock('../utils/randomWords');
+
 import request from 'supertest'
 import knex from '../services/knex'
+
+import mail from '../services/mail';
 
 import app from '../';
 
 import { BeginRegistrationResponses } from './BeginRegistration'
 
 describe('BeginRegistration POST /', () => {
+  beforeEach(() => {
+    jest.spyOn(mail, 'sendMail')
+  })
+
+  afterEach(() => {
+    jest.spyOn(mail, 'sendMail').mockClear();
+  })
+
   it('errors when info is missing', (done) => {
     request(app)
       .post('/onboarding/begin-registration')
@@ -29,7 +42,7 @@ describe('BeginRegistration POST /', () => {
 
     const [existingUser] = await knex('users')
       .insert(USER)
-      .returning('*')
+      .returning('*');
 
     try {
       const response = await request(app)
@@ -49,6 +62,34 @@ describe('BeginRegistration POST /', () => {
     } finally {
       await knex('users')
         .where({ id: existingUser.id })
+        .delete();
+    }
+  });
+
+  it('sends an email to the new user', async () => {
+    const USER = { email: 'newuser@example.com', name: 'New User' };
+
+    try {
+      await request(app)
+        .post('/onboarding/begin-registration')
+        .send(USER)
+        .set('accept', 'application/json')
+        .set('content-type', 'application/json')
+      
+      const emailDescription = await (async () => {
+        const rawMessage = await mail.sendMail.mock.results[0].value;
+        const rawJson = JSON.parse(rawMessage.message);
+        return {
+          ...rawJson,
+          messageId: 'Message ID removed for test consistency',
+          text: rawJson.text.replace(/[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}/ig, 'removed-uuid-v4-for-tests')
+        }
+      })();
+
+      expect(emailDescription).toMatchSnapshot();
+    } finally {
+      await knex('users')
+        .where(USER)
         .delete();
     }
   });
