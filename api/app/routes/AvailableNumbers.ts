@@ -2,7 +2,7 @@ import ValidationErrorResponse from '../types/RequestBodyValidationErrorResponse
 import express, { RequestHandler } from 'express'
 import { param, validationResult } from 'express-validator';
 import { MobileInstance } from 'twilio/lib/rest/api/v2010/account/availablePhoneNumber/mobile';
-import twilio from '../services/twilio';
+import twilio from '../services/Twilio';
 import Authenticated from '../middleware/Authenticated';
 
 const app = express();

@@ -9,6 +9,7 @@ import ValidateSession from './routes/ValidateSession';
 import AvailableNumbers from './routes/AvailableNumbers';
 import Onboarding from './routes/Onboarding';
 import WhoAmI from './routes/WhoAmI';
+import ChooseNumber from './routes/ChooseNumber';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', Healthcheck);
 app.use('/onboarding', Onboarding);
 app.use('/onboarding/begin-registration', BeginRegistration);
+app.use('/choose-number', ChooseNumber);
 app.use('/authentication/create-session', CreateSession);
 app.use('/authentication/validate-session', ValidateSession);
 app.use('/available-numbers', AvailableNumbers);

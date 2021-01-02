@@ -7,5 +7,6 @@ export default async (): Promise<Config.InitialOptions> => {
     verbose: true,
     testEnvironment: "node",
     setupFiles: ["./setupTests.ts"],
+    automock: false,
   };
 };
