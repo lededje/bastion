@@ -31,10 +31,11 @@ export interface Message {
   sid: string;
   to_phone_number_id: PhoneNumber['id'];
   body: string;
+  /** The number the message is from */
+  from: string;
   from_city: string;
   from_zip: string;
   from_country: string;
-  from_phone_number: string;
   created_at: string;
   updated_at: string;
 }
