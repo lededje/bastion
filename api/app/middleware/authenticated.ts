@@ -67,6 +67,12 @@ const Authenticated: RequestHandler<{}, AuthenticatedResponses> = async (req, re
     return;
   }
 
+  const user = await knex('users')
+    .where({ id: token.user_id })
+    .first();
+  
+  req.identity = user;
+
   next();
 }
 

@@ -1,3 +1,4 @@
+import Authenticated from '../../middleware/Authenticated';
 import express, { RequestHandler } from 'express'
 import ChooseANumber from './ChooseANumber';
 
@@ -9,6 +10,6 @@ const Onboarding: RequestHandler = async (req, res) => {
   res.status(204).end();
 }
 
-app.get('/', ChooseANumber, Onboarding);
+app.get('/', Authenticated, ChooseANumber, Onboarding);
 
 export default app;

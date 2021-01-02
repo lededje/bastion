@@ -14,37 +14,47 @@ const app = express();
 app.use('/', Authenticated);
 
 describe('Authenticated middleware', () => {
-  beforeAll(() => {
+  const TEMP_USER = { email: 'user@example.com', name: 'Temp User', verified: true };
+  
+  beforeAll(async () => {
     const FUTURE_DATE = formatISO(new Date('2100-01-01 12:00'));
     const PAST_DATE = formatISO(new Date('2000-01-01 12:00'));
+    
+    const [user] = await knex('users')
+      .insert(TEMP_USER)
+      .returning('*')
 
-    return knex('access_tokens')
+    await knex('access_tokens')
       .insert([
         {
-          user_id: 1,
+          user_id: user.id,
           access_token: EXPIRED_ACCESS_TOKEN,
           expires_at: PAST_DATE,
         },
         {
-          user_id: 1,
+          user_id: user.id,
           access_token: REVOKED_ACCESS_TOKEN,
           expires_at: FUTURE_DATE,
           revoked_at: PAST_DATE,
         },
         {
-          user_id: 1,
+          user_id: user.id,
           access_token: GOOD_ACCESS_TOKEN,
           expires_at: FUTURE_DATE,
         },
       ])
   })
 
-  afterAll(() => {
-    return knex('access_tokens')
+  afterAll(async () => {
+    await knex('access_tokens')
       .where('access_token', '=', EXPIRED_ACCESS_TOKEN)
       .orWhere('access_token', '=', REVOKED_ACCESS_TOKEN)
       .orWhere('access_token', '=', GOOD_ACCESS_TOKEN)
-      .delete()
+      .delete();
+    
+    await knex('users')
+      .where(TEMP_USER)
+      .delete();
   })
 
   it('responds when header is missing', (done) => {

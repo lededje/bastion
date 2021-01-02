@@ -3,7 +3,7 @@ import express, { RequestHandler } from 'express'
 import knex from '../services/knex';
 import { body, validationResult } from 'express-validator';
 import { User } from '../types/Tables';
-import { sub, add } from 'date-fns';
+import { sub, add, formatISO } from 'date-fns';
 
 const app = express();
 
@@ -44,7 +44,7 @@ const ValidateSession: RequestHandler<{}, ValidationSessionResponses, ValidateSe
     .where({ request_token: req.body.requestToken })
     .whereNull('access_token')
     .andWhere('created_at', '>=', sub(Date.now(), { minutes: 15 }))
-    .update({ access_token: knex.raw('uuid_generate_v4()'), expires_at: add(Date.now(), { days: 30 }).toString() })
+    .update({ access_token: knex.raw('uuid_generate_v4()'), expires_at: formatISO(add(Date.now(), { days: 30 })) })
     .returning('*');
   
   if(accessTokens.length === 0) {

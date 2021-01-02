@@ -10,7 +10,7 @@ const Identity: RequestHandler<{}, IdentityType> = async (req, res) => {
   const user = await knex('users')
     .join('access_tokens', 'access_tokens.user_id', 'users.id')
     .select('id', 'name', 'email', 'verified')
-    .where('access_token.access_token', '=', req.headers.authorization)
+    .where('access_tokens.access_token', '=', req.headers.authorization)
     .first();
 
   res.json({
