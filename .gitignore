@@ -4,3 +4,6 @@ data
 yarn-error.log
 
 .env
+
+.terraform
+.terraform.lock.hcl

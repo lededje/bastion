@@ -1,0 +1,25 @@
+[
+  {
+    "name": "nginx",
+    "image": "nginx:stable-alpine",
+    "taskRoleArn": "${task_arn}",
+    "cpu": 128,
+    "memory": 128,
+    "essential": true,
+    "portMappings": [{ "containerPort": 80 }],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-stream-prefix": "bastion-${environment}",
+        "awslogs-region": "${log_region}",
+        "awslogs-group": "${log_group}"
+      }
+    },
+    "healthCheck": {
+      "command": ["CMD-SHELL", "curl -f http://localhost/ || exit 1"],
+      "interval": 30,
+      "retries": 3,
+      "timeout": 5
+    }
+  }
+]
