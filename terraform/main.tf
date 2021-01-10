@@ -7,7 +7,7 @@ module "staging" {
 
   max_size         = 2
   min_size         = 1
-  desired_capacity = 1
+  desired_capacity = 2
   instance_type    = "t3.micro"
 
   db_username       = var.db_username
