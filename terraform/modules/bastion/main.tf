@@ -37,6 +37,12 @@ module "ecs" {
   vpc_id  = module.vpc.id
 }
 
+module "ecr" {
+  source = "../ecr"
+
+  environment = var.environment
+}
+
 module "domain" {
   source = "../domain"
 
