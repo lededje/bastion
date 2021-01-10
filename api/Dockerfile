@@ -1,5 +1,7 @@
 FROM node:14.15-alpine
 
+RUN apk add curl --no-cache
+
 RUN mkdir /api
 
 WORKDIR /api
@@ -10,4 +12,6 @@ RUN yarn
 
 ADD . /api/
 
-CMD yarn run start
+RUN yarn run build
+
+CMD yarn start
