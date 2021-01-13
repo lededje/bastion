@@ -11,21 +11,15 @@ data "aws_iam_policy_document" "ecs_task_assume_role_policy" {
 
 data "aws_iam_policy_document" "ecs_role_policy" {
   statement {
-    actions   = ["ssm:DescribeParameters"]
+    actions   = ["secretsmanager:DescribeSecret"]
     effect    = "Allow"
     resources = ["*"]
   }
 
   statement {
-    actions   = ["ssm:GetParameter"]
+    actions   = ["secretsmanager:GetSecretValue"]
     effect    = "Allow"
     resources = ["*"]
-
-    condition {
-      test     = "StringEquals"
-      variable = "ssm:resourceTag/Environment"
-      values   = [var.environment]
-    }
   }
 }
 

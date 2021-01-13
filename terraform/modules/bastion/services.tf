@@ -16,10 +16,12 @@ data "template_file" "tasks" {
   template = file("${path.module}/services/bastion.json")
 
   vars = {
-    log_group   = aws_cloudwatch_log_group.docker.name
-    log_region  = data.aws_region.current.name
-    environment = var.environment
-    task_arn    = module.ecs_roles.arn
+    log_group          = aws_cloudwatch_log_group.docker.name
+    log_region         = data.aws_region.current.name
+    environment        = var.environment
+    task_arn           = module.ecs_roles.arn
+    region             = data.aws_region.current.name
+    ecr_repository_url = module.ecr.repository_url
   }
 }
 

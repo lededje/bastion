@@ -1,11 +1,15 @@
 [
   {
     "name": "nginx",
-    "image": "nginx:stable-alpine",
+    "image": "${ecr_repository_url}:nginx-136a2ca",
     "taskRoleArn": "${task_arn}",
     "cpu": 128,
     "memory": 128,
     "essential": true,
+    "dependsOn": [
+      { "containerName": "api", "condition": "HEALTHY" }
+    ],
+    "links": ["api"],
     "portMappings": [{ "containerPort": 80 }],
     "logConfiguration": {
       "logDriver": "awslogs",
@@ -21,5 +25,53 @@
       "retries": 3,
       "timeout": 5
     }
+  },
+  {
+    "name": "api",
+    "image": "${ecr_repository_url}:api-136a2ca",
+    "taskRoleArn": "${task_arn}",
+    "cpu": 128,
+    "memory": 128,
+    "essential": true,
+    "portMappings": [{ "containerPort": 3000 }],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-stream-prefix": "bastion-${environment}",
+        "awslogs-region": "${log_region}",
+        "awslogs-group": "${log_group}"
+      }
+    },
+    "healthCheck": {
+      "command": ["CMD-SHELL", "curl -f http://localhost:3000/ || exit 1"],
+      "interval": 30,
+      "retries": 3,
+      "timeout": 5
+    },
+    "environment": [
+      {
+        "name": "AWS_REGION",
+        "value": "${region}"
+      },
+      {
+        "name": "SECRETS_MANAGER__DB_PATH",
+        "value": "bastion_${environment}"
+      },
+      {
+        "name": "SECRETS_MANAGER__TWILIO_ACCOUNT_SID",
+        "value": "bastion_${environment}"
+      },
+      {
+        "name": "SECRETS_MANAGER__TWILIO_AUTH_TOKEN",
+        "value": "bastion_${environment}"
+      }
+    ],
+    "entryPoint": [
+      "/api/bin/kms-env",
+      "--region",
+      "${region}",
+      "--"
+    ],
+    "command": ["yarn", "start"]
   }
 ]

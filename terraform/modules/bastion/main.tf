@@ -43,6 +43,12 @@ module "ecr" {
   environment = var.environment
 }
 
+module "secrets_manager" {
+  source = "../secrets_manager"
+
+  environment = var.environment
+}
+
 module "domain" {
   source = "../domain"
 

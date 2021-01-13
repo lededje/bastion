@@ -3,10 +3,10 @@ jest.mock('../middleware/Authenticated');
 jest.mock('../services/mail');
 jest.mock('../utils/randomWords');
 
+const mail = jest.requireMock('../services/mail');
+
 import request from 'supertest'
 import knex from '../services/knex'
-
-import mail from '../services/mail';
 
 import app from '../';
 

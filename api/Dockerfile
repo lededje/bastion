@@ -14,4 +14,6 @@ ADD . /api/
 
 RUN yarn run build
 
-CMD yarn start
+ENV NODE_ENV=production
+
+CMD ["yarn", "start"]

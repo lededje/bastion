@@ -1,4 +1,4 @@
-resource "aws_ecr_repository" "bastion" {
+resource "aws_ecr_repository" "main" {
   name                 = "bastion_${var.environment}"
   image_tag_mutability = "IMMUTABLE"
 
