@@ -22,6 +22,7 @@ data "template_file" "tasks" {
     task_arn           = module.ecs_roles.arn
     region             = data.aws_region.current.name
     ecr_repository_url = module.ecr.repository_url
+    secrets_store      = module.secrets_manager.secret_store_name
   }
 }
 

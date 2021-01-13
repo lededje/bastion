@@ -55,15 +55,15 @@
       },
       {
         "name": "SECRETS_MANAGER__DB_PATH",
-        "value": "bastion_${environment}"
+        "value": "${secrets_store}"
       },
       {
         "name": "SECRETS_MANAGER__TWILIO_ACCOUNT_SID",
-        "value": "bastion_${environment}"
+        "value": "${secrets_store}"
       },
       {
         "name": "SECRETS_MANAGER__TWILIO_AUTH_TOKEN",
-        "value": "bastion_${environment}"
+        "value": "${secrets_store}"
       }
     ],
     "entryPoint": [
